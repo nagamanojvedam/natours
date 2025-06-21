@@ -1,7 +1,13 @@
 import axios from 'axios';
 import { showAlert } from './alerts';
 
-const stripe = Stripe(process.env.STRIPE_PK);
+let stripe;
+
+(async () => {
+  const response = await fetch('/config/stripe');
+  const { publicKey } = await response.json();
+  stripe = Stripe(publicKey);
+})();
 
 export const bookTour = async (tourId) => {
   try {

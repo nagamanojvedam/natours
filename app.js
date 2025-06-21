@@ -8,7 +8,9 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const compression = require('compression');
+const dotenv = require('dotenv');
 
+dotenv.config({ path: './config.env' });
 const AppError = require('./utils/appErrors');
 
 const globalErrorHandler = require('./controllers/errorController');
@@ -74,6 +76,10 @@ app.use('/api/v2/tours', tourRouter);
 app.use('/api/v2/users', userRouter);
 app.use('/api/v2/bookings', bookingRouter);
 app.use('/api/v2/reviews', reviewRouter);
+
+app.get('/config/stripe', (req, res) => {
+  res.json({ publicKey: process.env.STRIPE_PK });
+});
 
 app.all('*', (req, res, next) => {
   next(new AppError(404, `Cant find ${req.originalUrl} on this server!`));

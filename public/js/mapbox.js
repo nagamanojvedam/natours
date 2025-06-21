@@ -1,5 +1,4 @@
 import maplibregl from 'maplibre-gl';
-import 'maplibre-gl/dist/maplibre-gl.css';
 
 export const displayMap = (locations) => {
   const map = new maplibregl.Map({
